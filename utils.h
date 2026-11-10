@@ -13,7 +13,11 @@
 #ifndef UTILS_H
 # define UTILS_H
 
-int		ft_strlen(char *str);
+# include "strategy.h"
+# include "operation.h"
+
 void	ft_putstring(char *str);
+void	print_bench(float disorder, t_strategy *strat, int op_total,
+		t_operation *op_list);
 
 #endif
