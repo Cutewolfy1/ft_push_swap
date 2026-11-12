@@ -3,62 +3,113 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: epigot <epigot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bgambey <bgambey@learner.42.tech>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/11/03 10:13:00 by epigot            #+#    #+#             */
-/*   Updated: 2026/11/06 15:19:07 by epigot           ###   ########.fr       */
+/*   Created: 2026/11/05 15:29:46 by bgambey           #+#    #+#             */
+/*   Updated: 2026/11/11 16:56:15 by bgambey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "ft_printf.h"
 
-static int	print_special(const char *string, va_list args)
+static size_t	get_spec_length(char spec, va_list *args)
 {
-	if (*(string + 1) == '%')
-		return (print_char('%'));
-	if (*(string + 1) == 'c')
-		return (print_char((char) va_arg(args, int)));
-	if (*(string + 1) == 's')
-		return (print_string((char *) va_arg(args, char *)));
-	if (*(string + 1) == 'p')
-		return (print_void((void *) va_arg(args, void *)));
-	if (*(string + 1) == 'd' || *(string + 1) == 'i')
-		return (ft_putnbr_signed((int) va_arg(args, int)));
-	if (*(string + 1) == 'u')
-		return (ft_putnbr_unsigned((unsigned int) va_arg(args, unsigned int)));
-	if (*(string + 1) == 'x' || *(string + 1) == 'X')
-		return (print_hex((unsigned int) va_arg(args, unsigned int),
-				*(string + 1)));
-	ft_putchar('%');
-	ft_putchar(*(string + 1));
-	return (2);
+	int		index;
+
+	index = get_spec_index(spec);
+	if (index < 0)
+		return (2);
+	return (get_length_functions()[index](args));
 }
 
-int	ft_printf(const char *string, ...)
+static ssize_t	get_string_length(const char *format, va_list *args)
 {
-	int		char_count;
-	va_list	args;
+	int		i;
+	ssize_t	length;
 
-	char_count = 0;
-	va_start(args, string);
-	while (*string)
+	length = 0;
+	i = 0;
+	while (format[i])
 	{
-		if (*string != '%')
+		if (format[i] == FMT_CHAR)
 		{
-			ft_putchar(*string);
-			char_count++;
-			string++;
-			continue ;
+			i++;
+			if (!format[i])
+				return (-1);
+			length += get_spec_length(format[i], args);
 		}
-		if (*(string + 1) == '\0')
-		{
-			ft_putchar('%');
-			char_count++;
-			break ;
-		}
-		char_count += print_special(string, args);
-		string += 2;
+		else
+			length++;
+		i++;
 	}
+	return (length);
+}
+
+static void	fill_in_string(char *dst, char const *format, va_list *args)
+{
+	int		index;
+
+	while (*format)
+	{
+		if (*format == FMT_CHAR)
+		{
+			format++;
+			index = get_spec_index(*format);
+			if (index < 0)
+			{
+				*(dst++) = FMT_CHAR;
+				*(dst++) = *format;
+			}
+			else
+				dst = get_write_functions()[index](dst, args);
+		}
+		else
+			*(dst++) = *format;
+		format++;
+	}
+}
+
+int	ft_vdprintf(int fd, const char *format, va_list *args)
+{
+	ssize_t	length;
+	char	*string;
+	va_list	copy;
+
+	if (!format)
+		return (-1);
+	va_copy(copy, *args);
+	length = get_string_length(format, args);
+	if (length < 0)
+		return (length);
+	string = malloc(length);
+	if (!string)
+		return (-1);
+	fill_in_string(string, format, &copy);
+	va_end(copy);
+	write(fd, string, length);
+	free(string);
+	return (length);
+}
+
+int	ft_dprintf(int fd, const char *format, ...)
+{
+	va_list	args;
+	int		ret;
+
+	va_start(args, format);
+	ret = ft_vdprintf(fd, format, &args);
 	va_end(args);
-	return (char_count);
+	return (ret);
+}
+
+int	ft_printf(const char *format, ...)
+{
+	va_list	args;
+	int		ret;
+
+	va_start(args, format);
+	ret = ft_vdprintf(1, format, &args);
+	va_end(args);
+	return (ret);
 }

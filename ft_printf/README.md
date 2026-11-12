@@ -1,35 +1,31 @@
-*This activity has been created as part of the 42 curriculum by epigot.*
+*This activity has been created as part of the 42 curriculum by bgambey.*
 
-# Description
-The goal of this activity is to create a C library with an home made printf equivalent.
+# ft_printf
+## Description
+This project aims to recreate a restraint set of features from the `printf` function.
 
-The ft_printf function supports interpolations for :
-- %c : prints a single character.
-- %s : prints a string (as defined by the common C convention).
-- %p : prints void * pointer argument in hexadecimal format.
-- %d : prints a decimal (base 10) number.
-- %i : prints an integer in base 10.
-- %u : prints an unsigned decimal (base 10) number.
-- %x : prints a number in hexadecimal (base 16) lowercase format.
-- %X : prints a number in hexadecimal (base 16) uppercase format.
-- %% : prints a percent sign.
+### Files
+`ft_printf.c`: main file `ft_printf` function.
+`ft_specs.c`: registers & indexes available formats.
+`ft_printf_*.c`: helper file to create a specific format (`ft_printf_s.c` = `%s`).
+`utils.c`: helpers functions.
 
-More information on the functions behavior can be found in the 42 activity subject.
+## Instructions
+### Build
 
-# Instructions
-To compile use the make commands available :
-- make 
-- make re (recompiles the full library)
-- make clean (cleans object files)
-- make fclean (cleans object files and the library)
+Depends on libft provided within the repo.
 
-You can use the library in your own code by including *ft_printf.h* and using *libftprintf.a* during compilation.
+Simply run `make` to build:
+```shell
+make
+```
 
-# Resources
-For more informations on the original printf function behavior see the Linux man pages : https://man7.org/linux/man-pages/man3/printf.3.html
+This will create a static library named `libftprintf.a` in the root of the repository
 
-# Technical details
-ft_print.c contains the main function which prints characters until finding a % character, upon which it then checks the next character to know exactly what to do with the arguments.
-The printed arguments are stored in a variable list from which the data is pulled every time a % is found.
-printers.c contains the different functions called to print in different formats.
-writers.c contains the number and characters printers, calling the write standard function.
+## Resources
+Check out [glibc](https://www.gnu.org/software/libc/documentation.html) website for complete documentation and full (and better) implementation of `printf`.
+You can also visit the [wikipedia printf page](https://en.wikipedia.org/wiki/Printf) or the [printf manual page](https://manpage.me/?q=printf)
+
+### Use of AI
+AI wasn't used in any way for the development of this project.
+

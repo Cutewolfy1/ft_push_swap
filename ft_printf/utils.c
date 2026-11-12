@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_utils.h                                  :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: epigot <epigot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bgambey <bgambey@learner.42.tech>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/11/03 10:14:42 by epigot            #+#    #+#             */
-/*   Updated: 2026/11/04 10:44:35 by epigot           ###   ########.fr       */
+/*   Created: 2026/11/07 13:36:38 by bgambey           #+#    #+#             */
+/*   Updated: 2026/11/07 13:38:22 by bgambey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_UTILS_H
-# define FT_PRINTF_UTILS_H
-
-# include <stdlib.h>
-
-char	*dec_to_hex(size_t n);
-char	ft_toupper(char c);
-
-#endif
+char	hexdigit(char index, int case_)
+{
+	if (case_)
+		case_ = -32;
+	if (index < 10)
+		return (index + '0');
+	return (index - 10 + 'a' + case_);
+}

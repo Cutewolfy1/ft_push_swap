@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   writers.h                                          :+:      :+:    :+:   */
+/*   ft_printf_percent.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: epigot <epigot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bgambey <bgambey@learner.42.tech>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/11/04 10:40:04 by epigot            #+#    #+#             */
-/*   Updated: 2026/11/04 10:45:10 by epigot           ###   ########.fr       */
+/*   Created: 2026/11/06 13:27:04 by bgambey           #+#    #+#             */
+/*   Updated: 2026/11/09 13:13:52 by bgambey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WRITERS_H
-# define WRITERS_H
+#include "ft_printf.h"
 
-# include <stdlib.h> 
-# include <unistd.h>
+size_t	get_percent_length(va_list *arg)
+{
+	(void) arg;
+	return (1);
+}
 
-void	ft_putchar(char c);
-size_t	ft_putnbr_unsigned(unsigned int n);
-size_t	ft_putnbr_signed(int nbr);
-
-#endif
+char	*write_percent(char *dst, va_list *arg)
+{
+	(void) arg;
+	*dst = FMT_CHAR;
+	return (dst + 1);
+}

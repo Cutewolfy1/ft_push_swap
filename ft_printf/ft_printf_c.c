@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printers.h                                         :+:      :+:    :+:   */
+/*   ft_printf_c.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: epigot <epigot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bgambey <bgambey@learner.42.tech>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/11/04 10:34:12 by epigot            #+#    #+#             */
-/*   Updated: 2026/11/04 10:46:17 by epigot           ###   ########.fr       */
+/*   Created: 2026/11/06 13:27:04 by bgambey           #+#    #+#             */
+/*   Updated: 2026/11/07 17:15:20 by bgambey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINTERS_H
-# define PRINTERS_H
+#include "ft_printf.h"
 
-# include <stdlib.h>
-# include "writers.h"
+size_t	get_c_length(va_list *arg)
+{
+	(void) va_arg(*arg, int);
+	return (1);
+}
 
-size_t	print_char(char c);
-size_t	print_string(char *s);
-size_t	print_hex(unsigned int n, char format);
-size_t	print_void(void *p);
-
-#endif
+char	*write_c(char *dst, va_list *arg)
+{
+	*dst = va_arg(*arg, int);
+	return (dst + 1);
+}
