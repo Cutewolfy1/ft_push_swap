@@ -6,7 +6,7 @@
 /*   By: epigot <epigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 14:54:40 by epigot            #+#    #+#             */
-/*   Updated: 2026/11/05 17:06:28 by epigot           ###   ########.fr       */
+/*   Updated: 2026/11/12 11:45:51 by bgambey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }				t_list;
+
 int				ft_isalpha(int c);
 int				ft_isdigit(int c);
 int				ft_isalnum(int c);
@@ -38,6 +39,7 @@ int				ft_toupper(int c);
 int				ft_tolower(int c);
 char			*ft_strchr(const char *s, int c);
 char			*ft_strrchr(const char *s, int c);
+int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 void			*ft_memchr(const void *s, int c, size_t n);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
