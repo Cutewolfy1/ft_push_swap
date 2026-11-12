@@ -6,7 +6,7 @@
 /*   By: epigot <epigot@learner.42.tech>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 16:06:33 by epigot            #+#    #+#             */
-/*   Updated: 2026/11/10 16:06:35 by epigot           ###   ########.fr       */
+/*   Updated: 2026/11/12 11:34:39 by bgambey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_operation
 	int		rrr;
 	char	**operations;
 }	t_operation;
-t_operation	*new_operation();
+
+t_operation	*new_operation(void);
 
 #endif
