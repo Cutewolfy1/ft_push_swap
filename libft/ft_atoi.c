@@ -6,16 +6,11 @@
 /*   By: epigot <epigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/17 19:51:48 by epigot            #+#    #+#             */
-/*   Updated: 2026/11/05 14:55:23 by epigot           ###   ########.fr       */
+/*   Updated: 2026/11/13 10:20:28 by bgambey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static int	is_whitespace(const char c)
-{
-	return ((c >= '\t' && c <= '\r') || c == ' ');
-}
 
 int	ft_atoi(const char *nptr)
 {
@@ -26,7 +21,7 @@ int	ft_atoi(const char *nptr)
 	result = 0;
 	i = 0;
 	sign = 1;
-	while (is_whitespace(nptr[i]))
+	while (ft_isspace(nptr[i]))
 		i++;
 	if (nptr[i] == '-' || nptr[i] == '+')
 	{
