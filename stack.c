@@ -6,7 +6,7 @@
 /*   By: bgambey <bgambey@learner.42.tech>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 15:58:23 by bgambey           #+#    #+#             */
-/*   Updated: 2026/11/10 17:51:07 by bgambey          ###   ########.fr       */
+/*   Updated: 2026/11/13 10:58:45 by bgambey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,13 @@ int	init_stack(t_stack *stack, size_t size)
 void	destroy_stack(t_stack *stack)
 {
 	free(stack->values);
+}
+
+void	print_stack(t_stack *stack)
+{
+	for (size_t i = 0; i < stack->count; i++)
+		ft_printf("%d ", get_stack_value(stack, i));
+	ft_printf("(Bot)\n");
 }
 
 static unsigned long	get_real_stack_index(t_stack *stack, unsigned long index)

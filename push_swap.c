@@ -6,7 +6,7 @@
 /*   By: epigot <epigot@learner.42.tech>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 12:24:22 by epigot            #+#    #+#             */
-/*   Updated: 2026/11/12 15:44:34 by bgambey          ###   ########.fr       */
+/*   Updated: 2026/11/13 10:58:56 by bgambey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ typedef struct s_push_swap_ctx
 {
 	t_strategy	stgy;
 	int			is_bench;
-	t_stack		a, b;
+	t_stack		stk_a, stk_b;
 }	t_push_swap_ctx;
 
 static int	get_solve_method(int *array, int length)
@@ -41,16 +41,23 @@ static int	get_solve_method(int *array, int length)
 	return (index);
 }
 
-static int	stack_from_args(char **args, int argc, t_stack *stack)
+static int	stack_from_strings(char **numbers, int count, t_stack *stack)
 {
 	int	i;
+	int	number;
 
+	if (init_stack(stack, count) < 0)
+		return (-1);
 	i = 0;
-	while (i < argc)
+	while (i < count)
 	{
-		if (
+		if (ft_strict_atoi(numbers[i], &number) < 0)
+			return (destroy_stack(stack), -1);
+		push_value(stack, number);
 		i++;
 	}
+	return (0);
+}
 
 static int	parse_args(int argc, char **argv, t_push_swap_ctx *ctx)
 {
@@ -78,7 +85,7 @@ static int	parse_args(int argc, char **argv, t_push_swap_ctx *ctx)
 		return (-1);
 	ctx->stgy.id = solve_method;
 	ctx->is_bench = is_bench;
-	if (stack_from_args(argv + ret, argc - ret, &ctx->a) < 0) // stacks allocated
+	if (stack_from_strings(argv + ret, argc - ret, &ctx->stk_a) < 0)
 		return (-1);
 	return (0);
 }
@@ -89,17 +96,15 @@ int	main(int argc, char **argv)
 	//int			i;
 	t_strategy	*strategy;
 	t_operation	*operation;
-	int			method;
-	int			is_bench;
-	t_stack		stack;
-	s_push_swap_ctx	ctx;
+	t_push_swap_ctx	ctx;
 
-	ctx = {-1, 0, (t_stack) {0}, (t_stack) {0}};
+	ctx = (t_push_swap_ctx) {0};
 	if (argc <= 1)
 		return (0);
 	if (parse_args(argc, argv, &ctx) < 0)
 		return (ft_dprintf(2, "Error\n"), 1);
-	// ctx.a.values && ctx.b.values are allocated (call destroy_stack())
+	print_stack(&ctx.stk_a);
+	destroy_stack(&ctx.stk_a);
 	return (0);
 
 	// Dead code, for now ...

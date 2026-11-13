@@ -6,7 +6,7 @@
 /*   By: bgambey <bgambey@learner.42.tech>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 17:26:18 by bgambey           #+#    #+#             */
-/*   Updated: 2026/11/10 17:51:20 by bgambey          ###   ########.fr       */
+/*   Updated: 2026/11/13 10:56:34 by bgambey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,8 @@ void	rotate_stack(t_stack *s);
 void	rev_rotate_stack(t_stack *s);
 void	swap_stack_top(t_stack *s);
 void	transfer_stacks(t_stack *dst, t_stack *src);
+
+#include "ft_printf.h" // FIXME too
+void	print_stack(t_stack *stack); // FIXME
 
 #endif
