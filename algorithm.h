@@ -1,17 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strategy.h                                         :+:      :+:    :+:   */
+/*   algorithm.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: epigot <epigot@learner.42.tech>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 16:06:33 by epigot            #+#    #+#             */
-/*   Updated: 2026/11/12 15:11:57 by bgambey          ###   ########.fr       */
+/*   Updated: 2026/11/13 15:58:06 by bgambey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRATEGY_H
-# define STRATEGY_H
+#ifndef ALGORITHM_H
+# define ALGORITHM_H
+
+# include "stack.h"
+# include "algos.h"
+
+typedef void (*t_solve_func)(t_stack *, t_op_list *);
 
 typedef enum e_strat_id
 { 
@@ -22,13 +27,15 @@ typedef enum e_strat_id
     STRAT_COUNT 
 } t_strat_id; 
 
-typedef struct s_strategy
+typedef struct s_algorithm
 {
-	t_strat_id	id;
+	t_strat_id	strat;
 	char		*category;
 	char		*complexity;
-}	t_strategy;
+	t_solve_func	solve;
+}	t_algorithm;
 
-t_strategy	*new_strategy(void);
+t_algorithm	*new_algorithm(void);
+t_algorithm	*find_algorithm(t_strat_id strat);
 
 #endif
