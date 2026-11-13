@@ -6,7 +6,7 @@
 /*   By: bgambey <bgambey@learner.42.tech>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 17:26:18 by bgambey           #+#    #+#             */
-/*   Updated: 2026/11/13 10:56:34 by bgambey          ###   ########.fr       */
+/*   Updated: 2026/11/13 16:45:16 by bgambey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ typedef struct s_stack
 
 int		init_stack(t_stack *stack, size_t size);
 void	destroy_stack(t_stack *stack);
-int		get_stack_value(t_stack *s, unsigned long index);
+int		get_stack_value(const t_stack *s, unsigned long index);
+long	index_of(const t_stack *s, int value);
 void	push_value(t_stack *stack, int value);
 void	rotate_stack(t_stack *s);
 void	rev_rotate_stack(t_stack *s);
@@ -33,6 +34,6 @@ void	swap_stack_top(t_stack *s);
 void	transfer_stacks(t_stack *dst, t_stack *src);
 
 #include "ft_printf.h" // FIXME too
-void	print_stack(t_stack *stack); // FIXME
+void	print_stack(const t_stack *stack, int fd); // FIXME
 
 #endif

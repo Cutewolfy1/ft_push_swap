@@ -6,7 +6,7 @@
 /*   By: bgambey <bgambey@learner.42.tech>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 15:58:23 by bgambey           #+#    #+#             */
-/*   Updated: 2026/11/13 10:58:45 by bgambey          ###   ########.fr       */
+/*   Updated: 2026/11/13 16:44:39 by bgambey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,15 @@ void	destroy_stack(t_stack *stack)
 	free(stack->values);
 }
 
-void	print_stack(t_stack *stack)
+void	print_stack(const t_stack *stack, int fd)
 {
+	ft_dprintf(fd, "(Bot) ");
 	for (size_t i = 0; i < stack->count; i++)
-		ft_printf("%d ", get_stack_value(stack, i));
-	ft_printf("(Bot)\n");
+		ft_dprintf(fd, "%d ", get_stack_value(stack, i));
+	ft_dprintf(fd, "(Top)\n");
 }
 
-static unsigned long	get_real_stack_index(t_stack *stack, unsigned long index)
+static unsigned long	get_real_stack_index(const t_stack *stack, unsigned long index)
 {
 	unsigned long	real_index;
 
@@ -51,9 +52,23 @@ static unsigned long	get_real_stack_index(t_stack *stack, unsigned long index)
 	return (real_index);
 }
 
-int	get_stack_value(t_stack *s, unsigned long index)
+int	get_stack_value(const t_stack *s, unsigned long index)
 {
 	return (s->values[get_real_stack_index(s, index)]);
+}
+
+long	index_of(const t_stack *s, int value)
+{
+	unsigned long	i;
+
+	i = 0;
+	while (i < s->count)
+	{
+		if (get_stack_value(s, i) == value)
+			return (i);
+		i++;
+	}
+	return (-1);
 }
 
 static void	swap_stack_values(t_stack *stack,
@@ -83,14 +98,14 @@ static int	pop_value(t_stack *stack)
 	unsigned long	value;
 
 	assert(stack->count > 0);
-	value = stack->values[get_real_stack_index(stack, stack->count - 1)];
+	value = get_stack_value(stack, stack->count - 1);
 	stack->count--;
 	if (stack->count == 0)
 		stack->start = 0; // May (maybe) improve performances (eventually) (dont know much...)
 	return (value);
 }
 
-void	rotate_stack(t_stack *s) // ra, rb, rr
+void	rev_rotate_stack(t_stack *s) // ra, rb, rr // FIXME: wrong comments
 {
 	unsigned long	old_start;
 	unsigned long	new_end;
@@ -106,7 +121,7 @@ void	rotate_stack(t_stack *s) // ra, rb, rr
 	s->values[new_end] = s->values[old_start];
 }
 
-void	rev_rotate_stack(t_stack *s) // rra, rrb rrr
+void	rotate_stack(t_stack *s) // rra, rrb rrr
 {
 	unsigned long	old_end;
 
