@@ -6,24 +6,11 @@
 /*   By: epigot <epigot@learner.42.tech>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 12:24:22 by epigot            #+#    #+#             */
-/*   Updated: 2026/11/13 10:58:56 by bgambey          ###   ########.fr       */
+/*   Updated: 2026/11/13 16:44:10 by bgambey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
-#include "operation.h"
-#include "strategy.h"
-#include "libft.h"
-
-#include "argparser.h"
-#include "stack.h"
-
-typedef struct s_push_swap_ctx
-{
-	t_strategy	stgy;
-	int			is_bench;
-	t_stack		stk_a, stk_b;
-}	t_push_swap_ctx;
+#include "push_swap.h"
 
 static int	get_solve_method(int *array, int length)
 {
@@ -53,7 +40,10 @@ static int	stack_from_strings(char **numbers, int count, t_stack *stack)
 	{
 		if (ft_strict_atoi(numbers[i], &number) < 0)
 			return (destroy_stack(stack), -1);
+		if (index_of(stack, number) >= 0)
+			return (destroy_stack(stack), -1);
 		push_value(stack, number);
+		rotate_stack(stack); // TODO: fill stack->values directly
 		i++;
 	}
 	return (0);
@@ -83,19 +73,15 @@ static int	parse_args(int argc, char **argv, t_push_swap_ctx *ctx)
 	solve_method = get_solve_method(solve_methods, STRAT_COUNT);
 	if (solve_method < 0)
 		return (-1);
-	ctx->stgy.id = solve_method;
+	ctx->strategy = solve_method;
 	ctx->is_bench = is_bench;
-	if (stack_from_strings(argv + ret, argc - ret, &ctx->stk_a) < 0)
+	if (stack_from_strings(argv + ret, argc - ret, &ctx->stk) < 0)
 		return (-1);
 	return (0);
 }
 
 int	main(int argc, char **argv)
 {
-	//float		start_disorder;
-	//int			i;
-	t_strategy	*strategy;
-	t_operation	*operation;
 	t_push_swap_ctx	ctx;
 
 	ctx = (t_push_swap_ctx) {0};
@@ -103,26 +89,17 @@ int	main(int argc, char **argv)
 		return (0);
 	if (parse_args(argc, argv, &ctx) < 0)
 		return (ft_dprintf(2, "Error\n"), 1);
-	print_stack(&ctx.stk_a);
-	destroy_stack(&ctx.stk_a);
-	return (0);
-
-	// Dead code, for now ...
-	strategy = new_strategy();
-	strategy->category = "Simple";
-	strategy->complexity = "O(n2)";
-	operation = new_operation();
-	operation->sa = 1;
-	operation->sb = 2;
-	operation->ss = 3;
-	operation->pa = 4;
-	operation->pb = 5;
-	operation->ra = 6;
-	operation->rb = 7;
-	operation->rr = 8;
-	operation->rra = 9;
-	operation->rrb = 10;
-	operation->rrr = 11;
-	//print_bench(40.58f, strategy, 20, operation);
+	if (ctx.stk.count == 0)
+		return (destroy_stack(&ctx.stk), ft_dprintf(2, "Error1\n"), 1);
+	ctx.algo = find_algorithm(ctx.strategy);
+	if (!ctx.algo)
+		return (destroy_stack(&ctx.stk), ft_dprintf(2, "Error2\n"), 1);
+	if (new_op_list(&ctx.op_list, ctx.stk.size * ctx.stk.size) < 0)
+		return (destroy_stack(&ctx.stk), ft_dprintf(2, "Error3\n"), 1); // FIXME, remove figits after errors
+	print_stack(&ctx.stk, 2);
+	ctx.algo->solve(&ctx.stk, &ctx.op_list);
+	print_stack(&ctx.stk, 1);
+	destroy_op_list(&ctx.op_list);
+	destroy_stack(&ctx.stk);
 	return (0);
 }
